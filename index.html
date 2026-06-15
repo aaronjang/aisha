@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社AISHA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #A07840;
+    --gold-light: #C9A96E;
+    --gold-deep: #7A5A28;
+    --bg: #FAF8F4;
+    --bg-section: #F2EDE5;
+    --card-bg: #FFFFFF;
+    --text: #1C1A17;
+    --text-soft: #5C5650;
+    --warm-gray: #9A948E;
+    --border: rgba(160,120,64,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.3;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 60px;
+    background: linear-gradient(180deg, rgba(250,248,244,0.97) 0%, rgba(250,248,244,0) 100%);
+    backdrop-filter: blur(4px);
+    transition: all 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(250,248,244,0.98);
+    padding: 16px 60px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 24px rgba(160,120,64,0.06);
+  }
+
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .logo::after {
+    content: '株式会社';
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--warm-gray);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    margin-top: -4px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-soft);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 8px 24px;
+    font-size: 10px !important;
+    letter-spacing: 0.25em;
+    transition: all 0.3s ease !important;
+  }
+
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover {
+    background: var(--gold) !important;
+    color: #fff !important;
+  }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(201,169,110,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(160,120,64,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 30% 30% at 10% 20%, rgba(201,169,110,0.06) 0%, transparent 60%);
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .hero-lines::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    border: 1px solid rgba(160,120,64,0.12);
+    border-radius: 50%;
+    animation: pulse-ring 6s ease-in-out infinite;
+  }
+
+  .hero-lines::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px; height: 900px;
+    border: 1px solid rgba(160,120,64,0.06);
+    border-radius: 50%;
+    animation: pulse-ring 6s ease-in-out infinite 2s;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+  }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tagline {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-weight: 300;
+    animation: fadeUp 1.2s ease 0.2s both;
+  }
+
+  .hero-logo-text {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(72px, 12vw, 130px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 1.2s ease 0.3s both;
+    filter: drop-shadow(0 4px 32px rgba(160,120,64,0.18));
+  }
+
+  .hero-company {
+    font-size: 13px;
+    letter-spacing: 0.6em;
+    color: var(--warm-gray);
+    font-weight: 300;
+    margin-top: 16px;
+    animation: fadeUp 1.2s ease 0.5s both;
+  }
+
+  .hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--text-soft);
+    margin-top: 40px;
+    line-height: 1.8;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeUp 1.2s ease 0.7s both;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--warm-gray);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    animation: fadeUp 1.2s ease 1s both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    50.001% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ─── SECTION BASE ─── */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 60px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    padding: 120px 0;
+    background: var(--bg-section);
+  }
+
+  #services .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    background: rgba(160,120,64,0.1);
+  }
+
+  .service-card {
+    background: var(--card-bg);
+    padding: 60px 50px;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: all 0.5s ease;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,169,110,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .service-card:hover { box-shadow: 0 8px 40px rgba(160,120,64,0.08); }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transition: width 0.5s ease;
+  }
+
+  .service-card:hover::after { width: 100%; }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    color: rgba(160,120,64,0.08);
+    position: absolute;
+    top: 20px; right: 30px;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+
+  .service-card:hover .service-num { color: rgba(160,120,64,0.14); }
+
+  .service-icon { font-size: 28px; margin-bottom: 24px; color: var(--gold); }
+
+  .service-title-ja {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .service-title-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    line-height: 2;
+    color: var(--text-soft);
+    font-weight: 300;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    border: 1px solid rgba(160,120,64,0.25);
+    padding: 4px 12px;
+    text-transform: uppercase;
+    background: rgba(160,120,64,0.04);
+  }
+
+  /* ─── DIVIDER ─── */
+  .gold-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+    opacity: 0.5;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    padding: 120px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .about-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border: 1px solid var(--border);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #fff 0%, var(--bg-section) 100%);
+  }
+
+  .about-frame-inner {
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(160,120,64,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.04) 0%, transparent 60%);
+  }
+
+  .about-frame-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 56px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-frame-sub {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+  }
+
+  .about-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.5;
+  }
+
+  .about-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .about-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .about-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .about-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .about-stats {
+    position: absolute;
+    bottom: -30px; right: -30px;
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 24px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
+    box-shadow: 0 8px 32px rgba(160,120,64,0.08);
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--warm-gray);
+    margin-top: 4px;
+    text-align: center;
+  }
+
+  .about-body {
+    font-size: 14px;
+    line-height: 2.2;
+    color: var(--text-soft);
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .about-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+  }
+
+  .about-table tr { border-bottom: 1px solid rgba(160,120,64,0.12); }
+
+  .about-table td {
+    padding: 14px 0;
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  .about-table td:first-child {
+    color: var(--gold);
+    width: 120px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .about-table td:last-child { color: var(--text-soft); }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--bg-section);
+    padding: 0;
+  }
+
+  #contact .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 30px;
+    color: var(--text);
+  }
+
+  .contact-info h3 em { color: var(--gold); font-style: italic; }
+
+  .contact-info p {
+    font-size: 13px;
+    line-height: 2.2;
+    color: var(--text-soft);
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .contact-detail { display: flex; flex-direction: column; gap: 16px; }
+
+  .contact-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+
+  .contact-row span:first-child {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    min-width: 60px;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-group label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: #fff;
+    border: 1px solid rgba(160,120,64,0.2);
+    color: var(--text);
+    padding: 14px 18px;
+    font-size: 13px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+  }
+
+  .form-group select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A07840' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+  }
+
+  .form-group select option { background: #fff; color: var(--text); }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(160,120,64,0.07);
+  }
+
+  .form-group textarea { height: 140px; resize: none; }
+
+  ::placeholder { color: rgba(154,148,142,0.6); }
+
+  .btn-submit {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 16px 40px;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    align-self: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: 0;
+  }
+
+  .btn-submit:hover::before { transform: translateX(0); }
+
+  .btn-submit span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.4s ease;
+  }
+
+  .btn-submit:hover span { color: #fff; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 50px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .footer-copy {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--warm-gray);
+  }
+
+  .footer-links { display: flex; gap: 30px; }
+
+  .footer-links a {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── HAMBURGER ─── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 1px; background: var(--gold); transition: all 0.3s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .hamburger { display: flex; }
+
+    .nav-links {
+      position: fixed;
+      top: 0; right: -100%;
+      width: 260px; height: 100vh;
+      background: rgba(250,248,244,0.98);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      transition: right 0.4s ease;
+      border-left: 1px solid var(--border);
+      box-shadow: -8px 0 40px rgba(160,120,64,0.06);
+    }
+
+    .nav-links.open { right: 0; }
+    .nav-links a { font-size: 13px; }
+
+    #home { padding: 0 24px; }
+    .hero-logo-text { font-size: clamp(56px, 15vw, 100px); }
+
+    #about { grid-template-columns: 1fr; gap: 60px; padding: 80px 24px; }
+    .about-stats { position: static; margin-top: 20px; }
+    .services-grid { grid-template-columns: 1fr; }
+    #services .inner { padding: 0 24px; }
+    #contact .inner { grid-template-columns: 1fr; gap: 50px; padding: 80px 24px; }
+
+    footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="logo">AISHA</a>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" onclick="closeMenu()">ホーム</a></li>
+    <li><a href="#services" onclick="closeMenu()">事業内容</a></li>
+    <li><a href="#about" onclick="closeMenu()">会社概要</a></li>
+    <li><a href="#contact" onclick="closeMenu()" class="nav-cta">お問合せ</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="home" style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--bg);">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <p class="hero-tagline">Beauty · Brand · Bridge</p>
+    <div class="hero-logo-text">AISHA</div>
+    <p class="hero-company">株式会社AISHA</p>
+    <p class="hero-desc">日本と世界をつなぐ、<br>美と創造のプロフェッショナル集団</p>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services" style="padding:120px 0;">
+  <div class="inner">
+    <span class="section-label reveal">事業内容</span>
+    <h2 class="section-title reveal">私たちの<em>サービス</em></h2>
+  </div>
+
+  <div class="services-grid" style="max-width:1200px;margin:60px auto 0;padding:0 60px;">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">✦</div>
+      <p class="service-title-ja">ブランドデザイン</p>
+      <p class="service-title-en">Brand Design</p>
+      <p class="service-desc">ロゴデザインからビジュアルアイデンティティ構築まで、ブランドの本質を引き出し、市場で輝く唯一無二の存在感を創り上げます。お客様のビジョンを形にし、長期的な価値を生む戦略的デザインを提供します。</p>
+      <div class="service-tags">
+        <span class="tag">VI設計</span>
+        <span class="tag">ロゴ制作</span>
+        <span class="tag">パッケージ</span>
+        <span class="tag">Web Design</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">⊕</div>
+      <p class="service-title-ja">中国企業の日本進出支援</p>
+      <p class="service-title-en">China to Japan Expansion</p>
+      <p class="service-desc">中国企業の日本市場への進出をトータルサポート。法人設立から現地マーケティング、文化的な橋渡しまで、豊富な経験と独自のネットワークを活用し、スムーズな日本展開を実現します。</p>
+      <div class="service-tags">
+        <span class="tag">法人設立</span>
+        <span class="tag">マーケティング</span>
+        <span class="tag">通訳・翻訳</span>
+        <span class="tag">現地展開</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">◈</div>
+      <p class="service-title-ja">美甲・美睫サロン</p>
+      <p class="service-title-en">Nail & Eyelash Salon</p>
+      <p class="service-desc">最高品質の技術と素材で、爪と睫毛の美しさを引き出す専門サロン。流行を先取るデザインと丁寧な施術で、一人ひとりの個性を輝かせる上質な美容体験をご提供します。</p>
+      <div class="service-tags">
+        <span class="tag">ネイルアート</span>
+        <span class="tag">ジェルネイル</span>
+        <span class="tag">まつげエクステ</span>
+        <span class="tag">ラッシュリフト</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-icon">◇</div>
+      <p class="service-title-ja">日本企業経営コンサルティング</p>
+      <p class="service-title-en">Business Consulting</p>
+      <p class="service-desc">日本のローカル企業が直面する経営課題を多角的に分析し、実践的な解決策を提案。経営戦略の立案から業務改善、人材育成まで、持続的な成長を支えるコンサルティングサービスです。</p>
+      <div class="service-tags">
+        <span class="tag">経営戦略</span>
+        <span class="tag">業務改善</span>
+        <span class="tag">人材育成</span>
+        <span class="tag">DX推進</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal" style="grid-column: 1 / -1;">
+      <div class="service-num">05</div>
+      <div class="service-icon">◉</div>
+      <p class="service-title-ja">買取大吉 — 中古ブランド品買取・販売</p>
+      <p class="service-title-en">Luxury Pre-owned · Buy & Sell</p>
+      <p class="service-desc">ルイ・ヴィトン、シャネル、エルメスをはじめとする国内外の高級ブランド品を、適正かつ高価格にて買取・販売いたします。豊富な査定実績と独自の販売ルートを活かし、お客様の大切なお品物に最高の価値をご提供。中国語・日本語対応のスタッフが丁寧に対応いたします。</p>
+      <div class="service-tags">
+        <span class="tag">ブランドバッグ</span>
+        <span class="tag">高級時計</span>
+        <span class="tag">ジュエリー</span>
+        <span class="tag">アパレル</span>
+        <span class="tag">高価買取</span>
+        <span class="tag">中国語対応</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="gold-divider"></div>
+
+<!-- ABOUT -->
+<div id="about" style="padding:120px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;">
+
+  <div class="about-visual reveal" style="position:relative;">
+    <div class="about-frame">
+      <div class="about-corner tl"></div>
+      <div class="about-corner tr"></div>
+      <div class="about-corner bl"></div>
+      <div class="about-corner br"></div>
+      <div class="about-frame-inner">
+        <div class="about-frame-logo">
+          <svg viewBox="0 0 280 80" xmlns="http://www.w3.org/2000/svg" aria-label="AISHA" style="width:220px;height:auto;">
+            <defs>
+              <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#C9A96E"/>
+                <stop offset="50%" stop-color="#A07840"/>
+                <stop offset="100%" stop-color="#7A5828"/>
+              </linearGradient>
+            </defs>
+            <path d="M12,68 L24,10 L30,10 L42,68 L35,68 L29,44 L21,44 L18,68 Z M22,38 L26,16 L34,38 Z" fill="url(#ag1)"/>
+            <rect x="7" y="64" width="12" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="34" y="64" width="12" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="55" y="10" width="16" height="2" rx="1" fill="url(#ag1)"/>
+            <rect x="61" y="10" width="6" height="58" rx="1" fill="url(#ag1)" transform="skewX(-4)"/>
+            <rect x="55" y="66" width="16" height="2.5" rx="1" fill="url(#ag1)"/>
+            <ellipse cx="65" cy="6" rx="4" ry="3.5" fill="url(#ag1)"/>
+            <path d="M108,20 Q98,10 85,16 Q73,22 77,36 Q81,48 94,52 Q107,56 109,66 Q111,76 99,79 Q87,82 79,74 L82,70 Q89,77 99,73 Q107,69 104,61 Q101,53 87,49 Q73,45 71,31 Q68,16 80,10 Q92,4 110,14 Z" fill="url(#ag1)"/>
+            <rect x="122" y="10" width="8" height="58" rx="1.5" fill="url(#ag1)" transform="skewX(-4)"/>
+            <rect x="148" y="10" width="8" height="58" rx="1.5" fill="url(#ag1)" transform="skewX(-4)"/>
+            <rect x="122" y="34" width="38" height="6" rx="1.5" fill="url(#ag1)" transform="skewX(-4)"/>
+            <rect x="116" y="10" width="20" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="144" y="10" width="20" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="116" y="65" width="18" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="144" y="65" width="18" height="2.5" rx="1" fill="url(#ag1)"/>
+            <path d="M172,68 L186,10 L193,10 L208,68 L200,68 L193,44 L184,44 L180,68 Z M185,38 L190,16 L199,38 Z" fill="url(#ag1)"/>
+            <rect x="167" y="64" width="13" height="2.5" rx="1" fill="url(#ag1)"/>
+            <rect x="196" y="64" width="14" height="2.5" rx="1" fill="url(#ag1)"/>
+            <path d="M207,68 Q228,72 250,70" stroke="url(#ag1)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="about-frame-sub">株式会社 · Since 2020</div>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div><div class="stat-num">4+</div><div class="stat-label">事業領域</div></div>
+      <div><div class="stat-num">JP</div><div class="stat-label">拠点</div></div>
+      <div><div class="stat-num">∞</div><div class="stat-label">可能性</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">コミット</div></div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <span class="section-label">会社概要</span>
+    <h2 class="section-title" style="margin-bottom:30px;">About <em>AISHA</em></h2>
+    <p class="about-body">株式会社AISHAは、ブランドデザイン、海外進出支援、美容サービス、経営コンサルティングを軸に、多様なニーズに応えるトータルソリューション企業です。</p>
+    <p class="about-body">日本と中国のビジネスをつなぐ架け橋として、また美と創造の力で人々の生活を豊かにすることを使命としています。</p>
+    <table class="about-table">
+      <tr><td>会社名</td><td>株式会社AISHA</td></tr>
+      <tr><td>所在地</td><td>東京都</td></tr>
+      <tr><td>事業内容</td><td>ブランドデザイン / 進出支援 / 美容 / 経営コンサル</td></tr>
+      <tr><td>対応言語</td><td>日本語・中国語・英語</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="gold-divider"></div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="inner">
+    <div class="contact-info reveal">
+      <span class="section-label">お問合せ</span>
+      <h3>お気軽に<br><em>ご相談ください</em></h3>
+      <p>ご質問・ご依頼・ご相談など、どんな些細なことでもお気軽にお問い合わせください。専門スタッフが丁寧にご対応いたします。</p>
+      <div class="contact-detail">
+        <div class="contact-row"><span>EMAIL</span><span>info@aisha-corp.jp</span></div>
+        <div class="contact-row"><span>TEL</span><span>お問い合わせフォームよりご連絡ください</span></div>
+        <div class="contact-row"><span>TIME</span><span>平日 10:00 – 18:00</span></div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label>お名前 *</label>
+        <input type="text" placeholder="山田 太郎">
+      </div>
+      <div class="form-group">
+        <label>メールアドレス *</label>
+        <input type="email" placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label>お問い合わせ種別</label>
+        <select>
+          <option value="">選択してください</option>
+          <option>ブランドデザイン</option>
+          <option>中国企業の日本進出支援</option>
+          <option>美甲・美睫サロン</option>
+          <option>経営コンサルティング</option>
+          <option>買取大吉（中古ブランド品）</option>
+          <option>その他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>メッセージ *</label>
+        <textarea placeholder="ご質問・ご相談内容をご記入ください"></textarea>
+      </div>
+      <button class="btn-submit"><span>送　信　す　る</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 220 55" xmlns="http://www.w3.org/2000/svg" aria-label="AISHA" style="height:36px;width:auto;opacity:0.7;">
+      <defs>
+        <linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#C9A96E"/>
+          <stop offset="100%" stop-color="#A07840"/>
+        </linearGradient>
+      </defs>
+      <path d="M6,48 L16,6 L21,6 L30,48 L24,48 L20,30 L14,30 L12,48 Z M15,26 L18,10 L24,26 Z" fill="url(#fg1)"/>
+      <rect x="2" y="45" width="10" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="22" y="45" width="10" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="40" y="6" width="12" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="45" y="6" width="5" height="42" rx="0.8" fill="url(#fg1)" transform="skewX(-4)"/>
+      <rect x="40" y="46" width="12" height="2" rx="0.8" fill="url(#fg1)"/>
+      <path d="M78,14 Q70,7 60,11 Q52,16 55,26 Q58,34 68,38 Q78,42 79,50 Q81,58 71,60 Q61,62 55,55 L57,52 Q64,57 72,54 Q79,51 77,44 Q75,37 63,33 Q51,29 50,19 Q48,9 59,4 Q70,-2 82,6 Z" fill="url(#fg1)"/>
+      <rect x="89" y="6" width="6" height="42" rx="1" fill="url(#fg1)" transform="skewX(-4)"/>
+      <rect x="110" y="6" width="6" height="42" rx="1" fill="url(#fg1)" transform="skewX(-4)"/>
+      <rect x="89" y="24" width="28" height="5" rx="1" fill="url(#fg1)" transform="skewX(-4)"/>
+      <rect x="84" y="6" width="16" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="106" y="6" width="14" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="84" y="46" width="15" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="106" y="46" width="14" height="2" rx="0.8" fill="url(#fg1)"/>
+      <path d="M125,48 L136,6 L142,6 L154,48 L148,48 L142,30 L135,30 L132,48 Z M136,26 L140,10 L148,26 Z" fill="url(#fg1)"/>
+      <rect x="120" y="45" width="12" height="2" rx="0.8" fill="url(#fg1)"/>
+      <rect x="146" y="45" width="12" height="2" rx="0.8" fill="url(#fg1)"/>
+    </svg>
+  </div>
+  <div class="footer-links">
+    <a href="#home">ホーム</a>
+    <a href="#services">事業内容</a>
+    <a href="#about">会社概要</a>
+    <a href="#contact">お問合せ</a>
+  </div>
+  <div class="footer-copy">© 2025 株式会社AISHA. All Rights Reserved.</div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+  function closeMenu() { document.getElementById('navLinks').classList.remove('open'); }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.1}s`;
+  });
+
+  function handleResize() {
+    const about = document.getElementById('about');
+    const serviceGrid = document.querySelector('.services-grid');
+    if (window.innerWidth <= 900) {
+      about.style.gridTemplateColumns = '1fr';
+      about.style.gap = '60px';
+      about.style.padding = '80px 24px';
+      serviceGrid.style.padding = '0 24px';
+    } else {
+      about.style.gridTemplateColumns = '1fr 1fr';
+      about.style.gap = '100px';
+      about.style.padding = '120px 60px';
+      serviceGrid.style.padding = '0 60px';
+    }
+  }
+  handleResize();
+  window.addEventListener('resize', handleResize);
+</script>
+</body>
+</html>
